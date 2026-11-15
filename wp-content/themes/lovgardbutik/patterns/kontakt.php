@@ -20,7 +20,7 @@ $maps_q = rawurlencode( 'Østre Kærvej 4, 4700 Næstved' );
 <!-- /wp:heading -->
 
 <!-- wp:paragraph -->
-<p>Gårdbutikken ligger i den hvide længe med det røde gavlbræt. Parkér på gårdspladsen, og betal med MobilePay eller kontant.</p>
+<p>Gårdbutikken ligger i den hvide længe med det røde gavlbræt. Parkér på gårdspladsen, og betal med MobilePay. Vi tager desværre ikke imod kort eller kontanter.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:paragraph {"fontSize":"large"} -->

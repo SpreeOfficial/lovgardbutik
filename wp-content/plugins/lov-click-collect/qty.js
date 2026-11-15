@@ -37,7 +37,7 @@
 					st.querySelector( '.lov-plus' ).focus();
 				}
 				if ( wasIn && n === 0 && id === bumpId ) {
-					const add = box.querySelector( 'button:not(.lov-step-btn), a.button' );
+					const add = box.querySelector( '.lov-add, button:not(.lov-step-btn), a.button' );
 					if ( add ) {
 						add.focus();
 					}
@@ -115,6 +115,13 @@
 	}
 
 	document.addEventListener( 'click', ( e ) => {
+		// "Tilføj til liste" på produktsiden (vores egen knap)
+		const own = e.target.closest( '.lov-add[data-product-id]' );
+		if ( own ) {
+			const box = own.closest( '.lov-qty-box' );
+			change( Number( own.dataset.productId ), 1, box );
+			return;
+		}
 		const btn = e.target.closest( '.lov-step-btn' );
 		if ( btn ) {
 			const st = btn.closest( '.lov-stepper' );

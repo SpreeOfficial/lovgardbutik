@@ -304,6 +304,56 @@ add_filter( 'woocommerce_loop_add_to_cart_link', function ( $html, $product ) {
 	return false === $pos ? $html . $stepper : substr_replace( $html, $stepper . '</div>', $pos, 6 );
 }, 20, 2 );
 
+/*
+ * Samme tæller på selve produktsiden: WooCommerce' formular (antalsfelt + knap)
+ * skiftes ud med "Tilføj til liste" / [−] (antal) [+]. Formularen ligger stadig
+ * i <noscript>, så man kan bestille uden JavaScript.
+ */
+add_filter( 'render_block_woocommerce/add-to-cart-form', function ( $html ) {
+	global $product;
+	if ( ! $product instanceof WC_Product || ! $product->is_type( 'simple' ) || ! $product->is_purchasable() || ! $product->is_in_stock() ) {
+		return $html;
+	}
+	$id   = $product->get_id();
+	$qty  = lov_cc_qty_in_list( $id );
+	$name = esc_attr( $product->get_name() );
+	return sprintf(
+		'<div class="lov-qty-box lov-single%1$s">'
+			. '<button type="button" class="lov-add wp-element-button" data-product-id="%2$d">Tilføj til liste</button>'
+			. '<div class="lov-stepper" data-product-id="%2$d">'
+				. '<button type="button" class="lov-step-btn lov-minus" aria-label="Tag én %3$s fra listen">−</button>'
+				. '<span class="lov-qty%4$s" role="status" aria-live="polite"><span class="screen-reader-text">Antal %3$s på listen: </span><span class="lov-qty-n">%5$d</span></span>'
+				. '<button type="button" class="lov-step-btn lov-plus" aria-label="Læg én %3$s mere på listen">+</button>'
+			. '</div>'
+		. '</div><noscript>%6$s</noscript>',
+		$qty ? ' lov-in-list' : '',
+		$id,
+		$name,
+		$qty ? ' has-items' : '',
+		$qty,
+		$html
+	);
+} );
+
+// Ingen faner (Beskrivelse / Anmeldelser) på produktsiden – vis beskrivelsen direkte.
+add_filter( 'render_block_woocommerce/product-details', function ( $html ) {
+	global $product;
+	if ( ! $product instanceof WC_Product ) {
+		return $html;
+	}
+	$desc = $product->get_description();
+	if ( '' === trim( wp_strip_all_tags( $desc ) ) ) {
+		return '';
+	}
+	return '<section class="lov-product-desc alignwide"><h2>Om ' . esc_html( $product->get_name() ) . '</h2>'
+		. wpautop( wp_kses_post( $desc ) ) . '</section>';
+} );
+
+// Danske ord i produktsidens metadata.
+add_filter( 'render_block_core/post-terms', function ( $html ) {
+	return str_replace( array( '>Category: <', '>Categories: <', '>Tags: <' ), array( '>Kategori: <', '>Kategorier: <', '>Mærker: <' ), $html );
+} );
+
 add_action( 'wp_enqueue_scripts', function () {
 	wp_register_script( 'lov-cc-qty', plugins_url( 'qty.js', __FILE__ ), array(), filemtime( __DIR__ . '/qty.js' ), array( 'in_footer' => true, 'strategy' => 'defer' ) );
 	wp_add_inline_script(
@@ -329,7 +379,13 @@ add_action( 'wp_enqueue_scripts', function () {
 		.lov-step-btn:focus-visible{outline:3px solid var(--wp--preset--color--hay,#E9D9A8);outline-offset:2px}
 		.lov-qty-box.lov-in-list > :not(.lov-stepper){display:none !important}
 		.lov-qty-box.lov-in-list .lov-step-btn{display:inline-flex}
-		.lov-qty-box.is-busy .lov-stepper{opacity:.6;pointer-events:none}
+		.lov-qty-box.is-busy .lov-stepper,.lov-qty-box.is-busy .lov-add{opacity:.6;pointer-events:none}
+		.lov-single{margin:8px 0 24px}
+		.lov-product-desc{max-width:760px;margin:48px auto 0;padding-top:32px;border-top:1px solid var(--wp--preset--color--line,#E4D8C3)}
+		.lov-product-desc h2{font-size:1.75rem;margin:0 0 16px}
+		.lov-product-desc p{margin:0 0 1em;line-height:1.7}
+		.lov-single .lov-add{border:0;border-radius:999px;padding:.85rem 1.6rem;min-height:44px;cursor:pointer;font-weight:700;background:var(--wp--preset--color--barn,#8E2F22);color:var(--wp--preset--color--paper,#FBF6EC)}
+		.lov-single .lov-add:hover{background:var(--wp--preset--color--barn-dark,#5E1D15)}
 		@media (prefers-reduced-motion:reduce){.lov-qty,.lov-step-btn{transition:none}.lov-qty.bump{transform:none}}
 	' );
 } );

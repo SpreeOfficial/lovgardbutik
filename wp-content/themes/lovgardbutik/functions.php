@@ -101,6 +101,54 @@ add_filter( 'render_block_woocommerce/mini-cart', function ( $html ) {
 	return preg_replace( '#<svg[^>]*wc-block-mini-cart__icon[^>]*>.*?</svg>#s', $icon, $html, 1 );
 } );
 
+/**
+ * Produktsiden (split-layout):
+ *  - "Tilbage" peger på produktets kategori (eller Produkter-siden)
+ *  - Faktaboksen viser produktets synlige egenskaber (fx Kilopris, Generel vægt),
+ *    prisen og om varen er på lager. Egenskaberne rettes under Produktdata → Egenskaber.
+ */
+add_filter( 'render_block_core/paragraph', function ( $html, $block ) {
+	if ( false === strpos( $block['attrs']['className'] ?? '', 'lov-back' ) || ! is_product() ) {
+		return $html;
+	}
+	$url   = wc_get_page_permalink( 'shop' );
+	$terms = get_the_terms( get_the_ID(), 'product_cat' );
+	if ( $terms && ! is_wp_error( $terms ) ) {
+		$url = get_term_link( $terms[0] );
+	}
+	$arrow = '<svg aria-hidden="true" focusable="false" width="28" height="20" viewBox="0 0 28 20" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M26 10H3M10 2 2 10l8 8"/></svg>';
+	return str_replace( array( 'href="#tilbage">', '>Tilbage<' ), array( 'href="' . esc_url( $url ) . '">' . $arrow, '><span>Tilbage</span><' ), $html );
+}, 10, 2 );
+
+add_filter( 'render_block_core/group', function ( $html, $block ) {
+	if ( false === strpos( $block['attrs']['className'] ?? '', 'lov-pdp-facts' ) || ! is_product() ) {
+		return $html;
+	}
+	$product = wc_get_product( get_the_ID() );
+	if ( ! $product ) {
+		return $html;
+	}
+	$facts = array();
+	foreach ( $product->get_attributes() as $attr ) {
+		if ( ! $attr->get_visible() ) {
+			continue;
+		}
+		$value = $attr->is_taxonomy()
+			? implode( ', ', wc_get_product_terms( $product->get_id(), $attr->get_name(), array( 'fields' => 'names' ) ) )
+			: implode( ', ', $attr->get_options() );
+		$facts[] = array( wc_attribute_label( $attr->get_name(), $product ), esc_html( $value ) );
+	}
+	$facts[] = array( 'Pris', $product->get_price_html() );
+	$in      = $product->is_in_stock();
+	$facts[] = array( 'Lager', '<span class="lov-stock ' . ( $in ? 'is-in' : 'is-out' ) . '">' . ( $in ? 'På lager' : 'Ikke på lager' ) . '</span>' );
+
+	$out = '<dl class="wp-block-group lov-pdp-facts">';
+	foreach ( $facts as $f ) {
+		$out .= '<div><dt>' . esc_html( $f[0] ) . '</dt><dd>' . $f[1] . '</dd></div>';
+	}
+	return $out . '</dl>';
+}, 10, 2 );
+
 // Egen mønsterkategori, så sektionerne er nemme at finde i editoren.
 add_action( 'init', function () {
 	register_block_pattern_category( 'lovgardbutik', array( 'label' => 'Lov Gårdbutik' ) );
