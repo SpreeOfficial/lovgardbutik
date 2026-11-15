@@ -68,3 +68,6 @@ desktop.ini
 node_modules/
 
 !/.gitattributes
+
+# Midlertidige vandmærkede billeder (Vecteezy-forhåndsvisninger)
+/wp-content/uploads/lov-midlertidig/

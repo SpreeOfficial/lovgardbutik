@@ -1,0 +1,279 @@
+/*
+Theme Name: Lov Gårdbutik
+Theme URI: https://lovgardbutik.dk
+Description: Child-tema til Twenty Twenty-Five for Lov Gårdbutik. Farver og skrifttyper fra logoet.
+Author: Lov Gårdbutik
+Template: twentytwentyfive
+Version: 1.0.0
+Requires at least: 6.7
+Requires PHP: 8.1
+License: GNU General Public License v2 or later
+Text Domain: lovgardbutik
+*/
+
+/* Små detaljer, som blokkene ikke selv kan styre */
+
+.lov-eyebrow {
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+}
+
+.lov-arch img {
+	border-radius: 220px 220px 16px 16px;
+}
+
+.lov-leaf img {
+	border-radius: 16px 16px 220px 16px;
+}
+
+.lov-card {
+	overflow: hidden;
+	height: 100%;
+}
+
+.lov-card .wp-block-image,
+.lov-card figure {
+	margin: 0;
+}
+
+.lov-card .lov-card-body > .wp-block-buttons {
+	margin-top: auto;
+}
+
+.lov-time {
+	border-top: 2px solid var(--wp--preset--color--hay);
+	padding-top: 1rem;
+}
+
+.lov-hours p {
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+	border-bottom: 1px dashed var(--wp--preset--color--line);
+	padding-bottom: 0.6rem;
+	margin: 0;
+}
+
+.lov-hours p:last-child {
+	border-bottom: 0;
+}
+
+/* Kontakt: Google-kort */
+.lov-map {
+	margin-top: 40px !important;
+	border-radius: 16px;
+	overflow: hidden;
+	border: 1px solid var(--wp--preset--color--line);
+	aspect-ratio: 16 / 10;
+}
+.lov-map iframe {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+/* Om gården: tidslinje */
+.lov-timeline {
+	position: relative;
+}
+.lov-tl-svg {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	overflow: visible;
+	z-index: 0;
+}
+.lov-tl-path {
+	fill: none;
+	stroke: var(--wp--preset--color--barn);
+	stroke-width: 3;
+	stroke-linecap: round;
+	stroke-dasharray: 2 12;
+	animation: lov-tl-march 1.6s linear infinite;
+}
+.lov-tl-reveal {
+	fill: none;
+	stroke: #fff;
+	stroke-width: 12;
+	transition: stroke-dashoffset 0.15s linear;
+}
+@keyframes lov-tl-march {
+	to { stroke-dashoffset: -14; }
+}
+.lov-tl-item {
+	position: relative;
+	z-index: 1;
+}
+.lov-tl-item.is-right {
+	flex-direction: row-reverse;
+}
+.lov-tl-bubble {
+	flex: 0 0 auto;
+	margin: 0 !important;
+}
+.lov-tl-bubble img {
+	width: 260px;
+	height: 260px;
+	object-fit: cover;
+	border-radius: 50%;
+	border: 8px solid var(--wp--preset--color--paper);
+	box-shadow: 0 0 0 2px var(--wp--preset--color--barn), 0 18px 40px rgba(42, 36, 28, 0.18);
+	display: block;
+}
+.lov-tl-text {
+	background: var(--wp--preset--color--paper);
+	border: 1px solid var(--wp--preset--color--line);
+	border-radius: 20px;
+	padding: 28px 32px;
+	max-width: 520px;
+}
+.lov-tl-year {
+	font-family: var(--wp--preset--font-family--source-serif);
+	font-weight: 700;
+	font-size: 1.1rem;
+	color: var(--wp--preset--color--barn);
+	letter-spacing: 0.08em;
+}
+/* Boblerne dukker op, når stien når dem */
+.lov-tl-ready .lov-tl-item .lov-tl-bubble,
+.lov-tl-ready .lov-tl-item .lov-tl-text {
+	opacity: 0;
+	transform: translateY(24px) scale(0.92);
+	transition: opacity 0.7s ease, transform 0.7s cubic-bezier(.2, .8, .2, 1);
+}
+.lov-tl-ready .lov-tl-item .lov-tl-text {
+	transition-delay: 0.15s;
+}
+.lov-tl-ready .lov-tl-item.is-visible .lov-tl-bubble,
+.lov-tl-ready .lov-tl-item.is-visible .lov-tl-text {
+	opacity: 1;
+	transform: none;
+}
+@media (max-width: 719px) {
+	.lov-tl-item,
+	.lov-tl-item.is-right {
+		flex-direction: column;
+		align-items: flex-start !important;
+		padding-left: 8px;
+	}
+	.lov-tl-bubble img {
+		width: 150px;
+		height: 150px;
+		border-width: 6px;
+	}
+	.lov-tl-text {
+		padding: 22px 22px;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.lov-tl-path { animation: none; }
+	.lov-tl-ready .lov-tl-item .lov-tl-bubble,
+	.lov-tl-ready .lov-tl-item .lov-tl-text {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+}
+
+/* Sidehoved: logo til venstre, menu i midten, kurv til højre */
+.lov-header-row {
+	display: grid !important;
+	grid-template-columns: 1fr auto 1fr;
+	align-items: center;
+	gap: 16px;
+}
+.lov-header-left { justify-self: start; }
+.lov-header-nav { justify-self: center; }
+.lov-header-right { justify-self: end; }
+@media (max-width: 599px) {
+	/* På mobil: logo, så burger-menu og kurv til højre */
+	.lov-header-row { grid-template-columns: 1fr auto auto; }
+	.lov-header-nav { justify-self: end; }
+}
+
+/* Produkter: "Sådan bestiller du" */
+.lov-step {
+	display: flex;
+	gap: 16px;
+	align-items: flex-start;
+	background: var(--wp--preset--color--paper);
+	border: 1px solid var(--wp--preset--color--line);
+	border-radius: 16px;
+	padding: 20px 22px;
+}
+.lov-step > * {
+	margin: 0 !important;
+}
+.lov-step-no {
+	flex: 0 0 44px;
+	height: 44px;
+	border-radius: 50%;
+	background: var(--wp--preset--color--barn);
+	color: var(--wp--preset--color--paper);
+	font-family: var(--wp--preset--font-family--source-serif);
+	font-weight: 700;
+	font-size: 1.35rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Klik og hent-ikonet i sidehovedet */
+.lov-cc-icon {
+	width: 30px;
+	height: 30px;
+}
+
+/* Produkter: kategori-knapper og produktkort */
+.lov-cat-pills .wp-block-navigation-item__content {
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
+	padding: 0 20px;
+	border: 1px solid var(--wp--preset--color--line);
+	border-radius: 999px;
+	background: var(--wp--preset--color--paper);
+	font-weight: 600;
+}
+.lov-cat-pills .current-menu-item > .wp-block-navigation-item__content,
+.lov-cat-pills .wp-block-navigation-item__content:hover {
+	background: var(--wp--preset--color--barn);
+	border-color: var(--wp--preset--color--barn);
+	color: var(--wp--preset--color--paper);
+}
+.lov-product-grid > li {
+	display: flex;
+	flex-direction: column;
+	background: var(--wp--preset--color--paper);
+	border: 1px solid var(--wp--preset--color--line);
+	border-radius: 16px;
+	padding: 14px 14px 22px;
+}
+/* Knap + antal altid nederst og venstrestillet, så de flugter på tværs af kortene */
+.lov-product-grid > li .wc-block-components-product-button {
+	margin-top: auto !important;
+	justify-content: flex-start !important;
+}
+.lov-product-hero .wp-block-cover__image-background {
+	object-fit: cover;
+}
+
+.lov-logo-round img {
+	border-radius: 50%;
+}
+
+.lov-hero-note {
+	box-shadow: 0 10px 30px rgba(42, 36, 28, 0.15);
+}
+
+@media (min-width: 782px) {
+	.lov-hero-media {
+		position: relative;
+	}
+	.lov-hero-note {
+		position: absolute;
+		left: -24px;
+		bottom: 32px;
+		max-width: 270px;
+	}
+}

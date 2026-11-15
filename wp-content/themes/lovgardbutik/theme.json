@@ -1,0 +1,117 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 3,
+	"settings": {
+		"appearanceTools": true,
+		"color": {
+			"defaultPalette": false,
+			"defaultGradients": false,
+			"palette": [
+				{ "slug": "base", "name": "Creme", "color": "#F7F1E6" },
+				{ "slug": "paper", "name": "Lys creme", "color": "#FBF6EC" },
+				{ "slug": "contrast", "name": "Mørkebrun", "color": "#2A241C" },
+				{ "slug": "muted", "name": "Brun tekst", "color": "#4A4136" },
+				{ "slug": "barn", "name": "Laderød", "color": "#8E2F22" },
+				{ "slug": "barn-dark", "name": "Mørk laderød", "color": "#5E1D15" },
+				{ "slug": "grass", "name": "Græsgrøn", "color": "#3E5A2C" },
+				{ "slug": "hay", "name": "Hø", "color": "#E9D9A8" },
+				{ "slug": "oat", "name": "Havre", "color": "#DCD3BF" },
+				{ "slug": "line", "name": "Streg", "color": "#E4D8C3" }
+			]
+		},
+		"layout": {
+			"contentSize": "760px",
+			"wideSize": "1200px"
+		},
+		"typography": {
+			"fontFamilies": [
+				{
+					"name": "Source Serif 4",
+					"slug": "source-serif",
+					"fontFamily": "\"Source Serif 4\", Georgia, serif",
+					"fontFace": [
+						{ "fontFamily": "Source Serif 4", "fontStyle": "normal", "fontWeight": "600 800", "fontDisplay": "swap", "src": [ "file:./assets/fonts/SourceSerif4-normal.woff2" ] },
+						{ "fontFamily": "Source Serif 4", "fontStyle": "italic", "fontWeight": "600", "fontDisplay": "swap", "src": [ "file:./assets/fonts/SourceSerif4-italic.woff2" ] }
+					]
+				},
+				{
+					"name": "Source Sans 3",
+					"slug": "source-sans",
+					"fontFamily": "\"Source Sans 3\", system-ui, sans-serif",
+					"fontFace": [
+						{ "fontFamily": "Source Sans 3", "fontStyle": "normal", "fontWeight": "400 700", "fontDisplay": "swap", "src": [ "file:./assets/fonts/SourceSans3-normal.woff2" ] },
+						{ "fontFamily": "Source Sans 3", "fontStyle": "italic", "fontWeight": "400", "fontDisplay": "swap", "src": [ "file:./assets/fonts/SourceSans3-italic.woff2" ] }
+					]
+				}
+			],
+			"fontSizes": [
+				{ "slug": "small", "name": "Lille", "size": "0.95rem" },
+				{ "slug": "medium", "name": "Normal", "size": "1.125rem" },
+				{ "slug": "large", "name": "Stor", "size": "1.35rem", "fluid": { "min": "1.2rem", "max": "1.35rem" } },
+				{ "slug": "x-large", "name": "Meget stor", "size": "2.9rem", "fluid": { "min": "2.1rem", "max": "2.9rem" } },
+				{ "slug": "xx-large", "name": "Kæmpe", "size": "3.4rem", "fluid": { "min": "2.4rem", "max": "3.4rem" } }
+			]
+		},
+		"spacing": {
+			"units": [ "px", "rem", "%", "vw" ]
+		}
+	},
+	"styles": {
+		"color": {
+			"background": "var:preset|color|base",
+			"text": "var:preset|color|contrast"
+		},
+		"typography": {
+			"fontFamily": "var:preset|font-family|source-sans",
+			"fontSize": "var:preset|font-size|medium",
+			"lineHeight": "1.6"
+		},
+		"elements": {
+			"heading": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|source-serif",
+					"fontWeight": "700",
+					"lineHeight": "1.1",
+					"letterSpacing": "0"
+				}
+			},
+			"link": {
+				"color": { "text": "var:preset|color|barn" },
+				":hover": { "color": { "text": "var:preset|color|barn-dark" } }
+			},
+			"button": {
+				"color": {
+					"background": "var:preset|color|barn",
+					"text": "var:preset|color|paper"
+				},
+				"border": { "radius": "999px" },
+				"typography": { "fontWeight": "700", "fontSize": "1rem" },
+				"spacing": { "padding": { "top": "0.85rem", "bottom": "0.85rem", "left": "1.6rem", "right": "1.6rem" } },
+				":hover": {
+					"color": {
+						"background": "var:preset|color|barn-dark",
+						"text": "var:preset|color|paper"
+					}
+				}
+			}
+		},
+		"blocks": {
+			"core/site-title": {
+				"typography": {
+					"fontFamily": "var:preset|font-family|source-serif",
+					"fontWeight": "800",
+					"fontSize": "1.4rem"
+				},
+				"elements": { "link": { "color": { "text": "var:preset|color|contrast" }, "typography": { "textDecoration": "none" } } }
+			},
+			"core/navigation": {
+				"typography": { "fontWeight": "600", "fontSize": "1.05rem" },
+				"elements": { "link": { "typography": { "textDecoration": "none" } } }
+			}
+		}
+	},
+	"templateParts": [
+		{ "name": "header", "title": "Sidehoved", "area": "header" },
+		{ "name": "footer", "title": "Sidefod", "area": "footer" }
+	]
+}
