@@ -1,0 +1,70 @@
+# =========================================================
+#  Lov Gårdbutik – kun tema, plugins og uploads i git
+# =========================================================
+
+# Ignorer alt i roden (WordPress-kerne, wp-config.php osv.)
+/*
+!/.gitignore
+!/.github/
+!/README.md
+
+# ...men tag wp-content med, og kun disse tre mapper
+!/wp-content/
+/wp-content/*
+!/wp-content/themes/
+!/wp-content/plugins/
+!/wp-content/uploads/
+
+# ---------------------------------------------------------
+#  Følsomme oplysninger – må ALDRIG i git
+# ---------------------------------------------------------
+wp-config.php
+wp-config-*.php
+db-oplysninger*
+*.env
+.env*
+*.sql
+*.sql.gz
+*.key
+*.pem
+*.p12
+*.pfx
+*.log
+debug.log
+auth.json
+**/secrets*.*
+**/credentials*.*
+
+# WooCommerce: private downloadfiler og logfiler
+/wp-content/uploads/woocommerce_uploads/
+/wp-content/uploads/wc-logs/
+/wp-content/uploads/wc-imports/
+
+# Backups og eksport fra migrerings-plugins
+/wp-content/uploads/backup*/
+/wp-content/uploads/backwpup*/
+/wp-content/uploads/updraft/
+/wp-content/ai1wm-backups/
+/wp-content/uploads/ai1wm-backups/
+*.wpress
+*.zip
+*.tar
+*.tar.gz
+
+# Cache og midlertidige filer
+/wp-content/uploads/cache/
+/wp-content/uploads/wpo-cache/
+/wp-content/uploads/*-cache/
+*.tmp
+*.bak
+*.swp
+
+# System-/editorfiler
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+node_modules/
+
+!/.gitattributes

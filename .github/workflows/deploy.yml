@@ -1,0 +1,46 @@
+# Deployer wp-content/themes, plugins og uploads til one.com ved hver push til main.
+#
+# Opsætning (GitHub → Settings → Secrets and variables → Actions):
+#   Secrets:
+#     FTP_SERVER     fx  ftp.lovgardbutik.dk  (se one.com kontrolpanel → FTP)
+#     FTP_USERNAME   dit FTP-brugernavn fra one.com
+#     FTP_PASSWORD   din FTP-adgangskode fra one.com
+#   Variables:
+#     FTP_REMOTE_DIR  stien til wp-content på serveren, fx  /wp-content/  (skal slutte med /)
+#
+# Kun ændrede filer uploades. Filer, der ikke er i git (wp-config.php, kernefiler,
+# woocommerce_uploads osv.), røres aldrig på serveren.
+
+name: Deploy til one.com
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hent koden
+        uses: actions/checkout@v4
+
+      - name: Upload wp-content via FTPS
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
+          local-dir: ./wp-content/
+          server-dir: ${{ vars.FTP_REMOTE_DIR }}
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
