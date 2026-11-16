@@ -8,10 +8,10 @@
  */
 
 $lov_img = function ( $file ) {
-	$id = attachment_url_to_postid( content_url( 'uploads/lov-midlertidig/' . $file ) );
+	$id = attachment_url_to_postid( content_url( 'uploads/2026/11/' . $file ) );
 	return array(
 		'id'  => (int) $id,
-		'url' => esc_url( content_url( 'uploads/lov-midlertidig/' . $file ) ),
+		'url' => esc_url( content_url( 'uploads/2026/11/' . $file ) ),
 	);
 };
 $logo_id  = (int) get_option( 'site_logo' );
@@ -56,7 +56,7 @@ $shop     = esc_url( function_exists( 'wc_get_page_id' ) ? get_permalink( wc_get
 
 <!-- wp:column {"verticalAlignment":"center","width":"58%","className":"lov-hero-media"} -->
 <div class="wp-block-column is-vertically-aligned-center lov-hero-media" style="flex-basis:58%"><!-- wp:image {"id":<?php echo $koer['id']; ?>,"aspectRatio":"4/5","scale":"cover","sizeSlug":"large","linkDestination":"none","className":"lov-arch"} -->
-<figure class="wp-block-image size-large lov-arch"><img src="<?php echo $koer['url']; ?>" alt="Køer og kalve hviler i det høje græs" class="wp-image-<?php echo $koer['id']; ?>" style="aspect-ratio:4/5;object-fit:cover"/></figure>
+<figure class="wp-block-image size-large lov-arch"><img src="<?php echo $koer['url']; ?>" alt="Køer græsser på en mark" class="wp-image-<?php echo $koer['id']; ?>" style="aspect-ratio:4/5;object-fit:cover"/></figure>
 <!-- /wp:image -->
 
 <!-- wp:group {"className":"lov-hero-note","style":{"border":{"radius":"14px"},"spacing":{"padding":{"top":"16px","bottom":"16px","left":"22px","right":"22px"},"blockGap":"2px"}},"backgroundColor":"paper","layout":{"type":"flex","orientation":"vertical"}} -->
@@ -76,7 +76,7 @@ $shop     = esc_url( function_exists( 'wc_get_page_id' ) ? get_permalink( wc_get
 <div id="historien" class="wp-block-group alignfull has-paper-background-color has-background" style="border-top-color:var(--wp--preset--color--line);border-top-width:1px;border-bottom-color:var(--wp--preset--color--line);border-bottom-width:1px;padding-top:104px;padding-right:var(--wp--preset--spacing--50);padding-bottom:104px;padding-left:var(--wp--preset--spacing--50)"><!-- wp:columns {"verticalAlignment":"center","align":"wide","style":{"spacing":{"blockGap":{"left":"64px"}}}} -->
 <div class="wp-block-columns alignwide are-vertically-aligned-center"><!-- wp:column {"verticalAlignment":"center"} -->
 <div class="wp-block-column is-vertically-aligned-center"><!-- wp:image {"id":<?php echo $sol['id']; ?>,"aspectRatio":"4/5","scale":"cover","sizeSlug":"large","linkDestination":"none","style":{"border":{"radius":"16px"}}} -->
-<figure class="wp-block-image size-large has-custom-border"><img src="<?php echo $sol['url']; ?>" alt="En ko græsser i aftensolen" class="wp-image-<?php echo $sol['id']; ?>" style="border-radius:16px;aspect-ratio:4/5;object-fit:cover"/></figure>
+<figure class="wp-block-image size-large has-custom-border"><img src="<?php echo $sol['url']; ?>" alt="Køer græsser på marken i solnedgang" class="wp-image-<?php echo $sol['id']; ?>" style="border-radius:16px;aspect-ratio:4/5;object-fit:cover"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
@@ -127,9 +127,9 @@ $shop     = esc_url( function_exists( 'wc_get_page_id' ) ? get_permalink( wc_get
 <div class="wp-block-columns alignwide"><?php
 foreach (
 	array(
-		array( $maelk, 'Kande med frisk mælk', 'Mælk', 'Frisk mælk fra køer, der har gået på græs. Fed, cremet og med den runde smag, man husker fra bedstemors køkken.', $cat( 'maelk' ), 'Se mælk' ),
-		array( $hegn, 'Græsmark bag et gammelt træhegn', 'Kød', 'Kød fra dyr, der har haft et roligt liv på marken. Hængemørt, pakket i portioner og klar til fryseren. Spørg efter kødpakker.', $cat( 'koed' ), 'Se kød' ),
-		array( $aeg, 'Friske æg i en rede af halm', 'Æg', 'Æg fra høns, der går frit rundt på gårdspladsen og i græsset. Samlet ind hver dag, så de er så friske, som de kan blive.', $cat( 'aeg' ), 'Se æg' ),
+		array( $maelk, 'Frisk mælk hældes fra en glaskande i et glas', 'Mælk', 'Frisk mælk fra køer, der har gået på græs. Fed, cremet og med den runde smag, man husker fra bedstemors køkken.', $cat( 'maelk' ), 'Se mælk' ),
+		array( $hegn, 'Rød lade på en bakke med høballer i solnedgang', 'Kød', 'Kød fra dyr, der har haft et roligt liv på marken. Hængemørt, pakket i portioner og klar til fryseren. Spørg efter kødpakker.', $cat( 'koed' ), 'Se kød' ),
+		array( $aeg, 'Friske brune og hvide æg i en bakke', 'Æg', 'Æg fra høns, der går frit rundt på gårdspladsen og i græsset. Samlet ind hver dag, så de er så friske, som de kan blive.', $cat( 'aeg' ), 'Se æg' ),
 	) as $card
 ) :
 	list( $img, $alt, $title, $text, $link, $btn ) = $card;
@@ -218,7 +218,7 @@ foreach (
 
 <!-- wp:column {"verticalAlignment":"center"} -->
 <div class="wp-block-column is-vertically-aligned-center"><!-- wp:image {"id":<?php echo $hoene['id']; ?>,"aspectRatio":"4/3","scale":"cover","sizeSlug":"large","linkDestination":"none","className":"lov-leaf"} -->
-<figure class="wp-block-image size-large lov-leaf"><img src="<?php echo $hoene['url']; ?>" alt="Brun høne står i det grønne græs" class="wp-image-<?php echo $hoene['id']; ?>" style="aspect-ratio:4/3;object-fit:cover"/></figure>
+<figure class="wp-block-image size-large lov-leaf"><img src="<?php echo $hoene['url']; ?>" alt="Brune høns går rundt på gården" class="wp-image-<?php echo $hoene['id']; ?>" style="aspect-ratio:4/3;object-fit:cover"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column --></div>
 <!-- /wp:columns --></div>
@@ -246,10 +246,6 @@ foreach (
 <!-- wp:buttons -->
 <div class="wp-block-buttons"><!-- wp:button -->
 <div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="https://maps.google.com/?q=%C3%98stre+K%C3%A6rvej+4,+4700+N%C3%A6stved">Find vej</a></div>
-<!-- /wp:button -->
-
-<!-- wp:button {"className":"is-style-outline"} -->
-<div class="wp-block-button is-style-outline"><a class="wp-block-button__link wp-element-button" href="tel:[TELEFON]">Ring: [TELEFON]</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
 <!-- /wp:column -->

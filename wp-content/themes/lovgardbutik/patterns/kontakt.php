@@ -30,10 +30,6 @@ $maps_q = rawurlencode( 'Østre Kærvej 4, 4700 Næstved' );
 <!-- wp:buttons -->
 <div class="wp-block-buttons"><!-- wp:button -->
 <div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="https://www.google.com/maps/dir/?api=1&amp;destination=<?php echo $maps_q; ?>">Find vej</a></div>
-<!-- /wp:button -->
-
-<!-- wp:button {"className":"is-style-outline"} -->
-<div class="wp-block-button is-style-outline"><a class="wp-block-button__link wp-element-button" href="tel:[TELEFON]">Ring: [TELEFON]</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons -->
 

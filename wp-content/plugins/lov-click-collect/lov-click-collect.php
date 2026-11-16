@@ -11,6 +11,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
+require_once __DIR__ . '/lager-besked.php';
+
 /* -----------------------------------------------------------------
  * Indstillinger – ret her, når åbningstiderne ligger fast.
  * ----------------------------------------------------------------- */
@@ -311,6 +313,10 @@ add_filter( 'woocommerce_loop_add_to_cart_link', function ( $html, $product ) {
  */
 add_filter( 'render_block_woocommerce/add-to-cart-form', function ( $html ) {
 	global $product;
+	// Udsolgt: vis "Få besked, når varen er på lager" i stedet.
+	if ( $product instanceof WC_Product && ! $product->is_in_stock() && function_exists( 'lov_notify_form' ) ) {
+		return '<div id="lov-besked">' . lov_notify_form( $product ) . '</div>';
+	}
 	if ( ! $product instanceof WC_Product || ! $product->is_type( 'simple' ) || ! $product->is_purchasable() || ! $product->is_in_stock() ) {
 		return $html;
 	}
@@ -334,6 +340,30 @@ add_filter( 'render_block_woocommerce/add-to-cart-form', function ( $html ) {
 		$html
 	);
 } );
+
+/*
+ * Samme tæller på "Din bestilling" (kurv-siden): antalsfeltet bliver til [−] (antal) [+].
+ * Et skjult felt holder antallet, så WooCommerce' egen opdatering (uden genindlæsning) bruges.
+ */
+add_filter( 'woocommerce_cart_item_quantity', function ( $html, $cart_item_key, $cart_item ) {
+	$product = $cart_item['data'] ?? null;
+	if ( ! $product instanceof WC_Product || $product->is_sold_individually() ) {
+		return $html;
+	}
+	$qty  = (int) $cart_item['quantity'];
+	$name = esc_attr( $product->get_name() );
+	return sprintf(
+		'<div class="lov-cart-stepper" data-cart-key="%1$s">'
+			. '<input type="hidden" name="cart[%1$s][qty]" value="%2$d" class="lov-cart-qty">'
+			. '<button type="button" class="lov-step-btn lov-cminus" aria-label="Tag én %3$s fra listen">−</button>'
+			. '<span class="lov-qty has-items" role="status" aria-live="polite"><span class="screen-reader-text">Antal %3$s på listen: </span><span class="lov-qty-n">%2$d</span></span>'
+			. '<button type="button" class="lov-step-btn lov-cplus" aria-label="Læg én %3$s mere på listen">+</button>'
+		. '</div>',
+		esc_attr( $cart_item_key ),
+		$qty,
+		$name
+	);
+}, 10, 3 );
 
 // Ingen faner (Beskrivelse / Anmeldelser) på produktsiden – vis beskrivelsen direkte.
 add_filter( 'render_block_woocommerce/product-details', function ( $html ) {
@@ -380,6 +410,10 @@ add_action( 'wp_enqueue_scripts', function () {
 		.lov-qty-box.lov-in-list > :not(.lov-stepper){display:none !important}
 		.lov-qty-box.lov-in-list .lov-step-btn{display:inline-flex}
 		.lov-qty-box.is-busy .lov-stepper,.lov-qty-box.is-busy .lov-add{opacity:.6;pointer-events:none}
+		.lov-cart-stepper{display:inline-flex;align-items:center;gap:8px}
+		.lov-cart-stepper .lov-step-btn{display:inline-flex}
+		.woocommerce-cart-form.lov-busy .lov-cart-stepper{opacity:.6;pointer-events:none}
+		.woocommerce-cart-form button[name="update_cart"]{display:none !important}
 		.lov-single{margin:8px 0 24px}
 		.lov-product-desc{max-width:760px;margin:48px auto 0;padding-top:32px;border-top:1px solid var(--wp--preset--color--line,#E4D8C3)}
 		.lov-product-desc h2{font-size:1.75rem;margin:0 0 16px}

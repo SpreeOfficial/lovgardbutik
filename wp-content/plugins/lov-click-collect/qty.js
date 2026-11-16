@@ -114,6 +114,53 @@
 			} );
 	}
 
+	// Kurv-siden ("Din bestilling"): sæt det skjulte antal og lad WooCommerce opdatere listen og totalen.
+	document.addEventListener( 'click', ( e ) => {
+		const cbtn = e.target.closest( '.lov-cart-stepper .lov-step-btn' );
+		if ( ! cbtn ) {
+			return;
+		}
+		e.stopImmediatePropagation();
+		const form = cbtn.closest( 'form.woocommerce-cart-form' );
+		const st = cbtn.closest( '.lov-cart-stepper' );
+		const input = st.querySelector( '.lov-cart-qty' );
+		const next = Math.max( 0, Number( input.value ) + ( cbtn.classList.contains( 'lov-cplus' ) ? 1 : -1 ) );
+		input.value = next;
+		st.querySelector( '.lov-qty-n' ).textContent = next;
+		const update = form && form.querySelector( 'button[name="update_cart"]' );
+		if ( update ) {
+			form.classList.add( 'lov-busy' );
+			update.disabled = false;
+			update.removeAttribute( 'aria-disabled' );
+			update.click();
+		}
+	}, true );
+	// WooCommerce erstatter formularen efter opdatering – fjern "optaget"-markeringen og fortæl listen i toppen.
+	if ( window.jQuery ) {
+		window.jQuery( document.body ).on( 'updated_cart_totals updated_wc_div', () => {
+			document.querySelectorAll( 'form.woocommerce-cart-form.lov-busy' ).forEach( ( f ) => f.classList.remove( 'lov-busy' ) );
+			// Opdatér tallet på klik og hent-ikonet i sidehovedet (kurv-siden)
+			const link = document.querySelector( '.lov-cc-link' );
+			if ( link ) {
+				api( '' ).then( ( cart ) => {
+					const n = ( cart.items || [] ).reduce( ( s, i ) => s + i.quantity, 0 );
+					let badge = link.querySelector( '.lov-cc-badge' );
+					if ( n && ! badge ) {
+						badge = document.createElement( 'span' );
+						badge.className = 'wc-block-mini-cart__badge lov-cc-badge';
+						link.querySelector( '.wc-block-mini-cart__quantity-badge' ).appendChild( badge );
+					}
+					if ( badge ) {
+						badge.textContent = n;
+						badge.hidden = ! n;
+					}
+					link.setAttribute( 'aria-label', 'Din klik og hent liste: ' + n + ( n === 1 ? ' vare' : ' varer' ) );
+				} ).catch( () => {} );
+			}
+			document.body.dispatchEvent( new CustomEvent( 'wc-blocks_added_to_cart', { bubbles: true } ) );
+		} );
+	}
+
 	document.addEventListener( 'click', ( e ) => {
 		// "Tilføj til liste" på produktsiden (vores egen knap)
 		const own = e.target.closest( '.lov-add[data-product-id]' );

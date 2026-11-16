@@ -25,6 +25,37 @@ add_action( 'wp_enqueue_scripts', function () {
 	}
 } );
 
+// Bestillingsguide som pop-up på mobil og kategoriknapper som sidescroller – kun på Produkter- og kategorisiderne.
+add_action( 'wp_enqueue_scripts', function () {
+	if ( function_exists( 'is_shop' ) && ( is_shop() || is_product_category() ) ) {
+		wp_enqueue_script(
+			'lovgardbutik-pills',
+			get_theme_file_uri( 'assets/js/pills.js' ),
+			array(),
+			filemtime( get_theme_file_path( 'assets/js/pills.js' ) ),
+			array( 'in_footer' => true, 'strategy' => 'defer' )
+		);
+		wp_enqueue_script(
+			'lovgardbutik-guide',
+			get_theme_file_uri( 'assets/js/guide.js' ),
+			array(),
+			filemtime( get_theme_file_path( 'assets/js/guide.js' ) ),
+			array( 'in_footer' => true, 'strategy' => 'defer' )
+		);
+	}
+} );
+
+// Sidehovedet bliver mindre ved scroll – på alle sider.
+add_action( 'wp_enqueue_scripts', function () {
+	wp_enqueue_script(
+		'lovgardbutik-header',
+		get_theme_file_uri( 'assets/js/header.js' ),
+		array(),
+		filemtime( get_theme_file_path( 'assets/js/header.js' ) ),
+		array( 'in_footer' => true, 'strategy' => 'defer' )
+	);
+} );
+
 // Samme styling i editoren, så siden ser ens ud mens man redigerer.
 add_action( 'after_setup_theme', function () {
 	add_editor_style( 'style.css' );
@@ -98,7 +129,23 @@ add_filter( 'render_block_woocommerce/mini-cart', function ( $html ) {
 		. '<path d="M10 17.5 L11 23.5 M16 17.5 V23.5 M22 17.5 L21 23.5"/>' // fletning
 		. '<path d="M16 2.5 V8.5 M13.5 5 L16 2.5 L18.5 5"/>'            // pil: "hent"
 		. '</svg>';
-	return preg_replace( '#<svg[^>]*wc-block-mini-cart__icon[^>]*>.*?</svg>#s', $icon, $html, 1 );
+	$html = preg_replace( '#<svg[^>]*wc-block-mini-cart__icon[^>]*>.*?</svg>#s', $icon, $html, 1 );
+
+	// På kurv- og bestillingssiden skjuler WooCommerce ikonet. Vis det i stedet som et link
+	// til "Din bestilling" med antallet, så sidehovedet ser ens ud overalt.
+	if ( function_exists( 'is_cart' ) && ( is_cart() || is_checkout() ) ) {
+		$count = WC()->cart ? WC()->cart->get_cart_contents_count() : 0;
+		$badge = $count ? '<span class="wc-block-mini-cart__badge lov-cc-badge">' . (int) $count . '</span>' : '';
+		$label = sprintf( 'Din klik og hent liste: %d %s', $count, 1 === $count ? 'vare' : 'varer' );
+		$html  = str_replace( ' style="visibility:hidden" aria-hidden="true"', '', $html );
+		$html  = preg_replace(
+			'#<button class="wc-block-mini-cart__button"[^>]*>(.*?)</button>#s',
+			'<a class="wc-block-mini-cart__button lov-cc-link" href="' . esc_url( wc_get_cart_url() ) . '" aria-label="' . esc_attr( $label ) . '"><span class="wc-block-mini-cart__quantity-badge">' . $icon . $badge . '</span></a>',
+			$html,
+			1
+		);
+	}
+	return $html;
 } );
 
 /**
@@ -148,6 +195,60 @@ add_filter( 'render_block_core/group', function ( $html, $block ) {
 	}
 	return $out . '</dl>';
 }, 10, 2 );
+
+// Burger-ikon med tre streger (WordPress' standard har kun to).
+add_filter( 'render_block_core/navigation', function ( $html, $block ) {
+	if ( false === strpos( $block['attrs']['className'] ?? '', 'lov-header-nav' ) ) {
+		return $html;
+	}
+	$burger = '<svg class="lov-burger" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M4 6.5h16M4 12h16M4 17.5h16"/></svg>';
+	return preg_replace(
+		'#(<button[^>]*wp-block-navigation__responsive-container-open[^>]*>)\s*<svg.*?</svg>#s',
+		'$1' . $burger,
+		$html,
+		1
+	);
+}, 10, 2 );
+
+/**
+ * Produkter-siden har ingen kategoribeskrivelse – vis i stedet sidens uddrag
+ * (Sider → Produkter → Uddrag) eller en standardtekst under overskriften i hero.
+ */
+add_post_type_support( 'page', 'excerpt' );
+add_filter( 'render_block_core/term-description', function ( $html, $block ) {
+	if ( '' !== trim( wp_strip_all_tags( $html ) ) || ! function_exists( 'is_shop' ) || ! is_shop() ) {
+		return $html;
+	}
+	$text = trim( (string) get_post_field( 'post_excerpt', wc_get_page_id( 'shop' ) ) );
+	if ( '' === $text ) {
+		$text = 'Mælk, kød og æg fra vores egne dyr på gården i Lov.';
+	}
+	$classes = 'wp-block-term-description';
+	if ( ! empty( $block['attrs']['textColor'] ) ) {
+		$classes .= ' has-text-color has-' . sanitize_html_class( $block['attrs']['textColor'] ) . '-color';
+	}
+	if ( ! empty( $block['attrs']['fontSize'] ) ) {
+		$classes .= ' has-' . sanitize_html_class( $block['attrs']['fontSize'] ) . '-font-size';
+	}
+	return '<div class="' . esc_attr( $classes ) . '"><p>' . esc_html( $text ) . '</p></div>';
+}, 10, 2 );
+
+/**
+ * Lagerstatus på produktkortene: samme grønne/røde prik som på produktsiden,
+ * lige under prisen.
+ */
+add_filter( 'render_block_woocommerce/product-price', function ( $html, $block, $instance ) {
+	$id = $instance instanceof WP_Block ? (int) ( $instance->context['postId'] ?? 0 ) : 0;
+	if ( ! $id || ( function_exists( 'is_product' ) && is_product() && get_queried_object_id() === $id ) ) {
+		return $html;
+	}
+	$product = wc_get_product( $id );
+	if ( ! $product ) {
+		return $html;
+	}
+	$in = $product->is_in_stock();
+	return $html . '<p class="lov-card-stock"><span class="lov-stock ' . ( $in ? 'is-in' : 'is-out' ) . '">' . ( $in ? 'På lager' : 'Ikke på lager' ) . '</span></p>';
+}, 10, 3 );
 
 // Egen mønsterkategori, så sektionerne er nemme at finde i editoren.
 add_action( 'init', function () {

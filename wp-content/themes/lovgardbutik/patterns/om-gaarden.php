@@ -8,14 +8,14 @@
  */
 
 $img = function ( $file ) {
-	$url = content_url( 'uploads/lov-midlertidig/' . $file );
+	$url = content_url( 'uploads/2026/11/' . $file );
 	return array( 'id' => (int) attachment_url_to_postid( $url ), 'url' => esc_url( $url ) );
 };
 
 $chapters = array(
 	array(
 		'img'   => $img( 'tl-1-gaarden.jpg' ),
-		'alt'   => 'Gammelt stuehus set gennem et vindue, med røg fra skorstenen',
+		'alt'   => 'Gammelt fotografi af et stuehus ved en grusvej',
 		'year'  => '[ÅRSTAL]',
 		'title' => 'Hvor det hele begyndte',
 		'text'  => array(
@@ -25,7 +25,7 @@ $chapters = array(
 	),
 	array(
 		'img'   => $img( 'tl-2-haender.jpg' ),
-		'alt'   => 'En gammel landmands hånd om en stok',
+		'alt'   => 'En gammel landmands hænder om en stok',
 		'year'  => '[ÅRSTAL]',
 		'title' => 'Hænder, der kendte jorden',
 		'text'  => array(
@@ -35,7 +35,7 @@ $chapters = array(
 	),
 	array(
 		'img'   => $img( 'tl-3-traktor.jpg' ),
-		'alt'   => 'Gammel traktor på gården',
+		'alt'   => 'Gammel traktor på en høstet mark',
 		'year'  => '[ÅRSTAL]',
 		'title' => 'Den første traktor',
 		'text'  => array(
@@ -45,7 +45,7 @@ $chapters = array(
 	),
 	array(
 		'img'   => $img( 'tl-4-hoens.jpg' ),
-		'alt'   => 'Tre høns i halmen ved stuehuset i aftensol',
+		'alt'   => 'Høns i græsset foran stuehuset i aftenlys',
 		'year'  => '[ÅRSTAL]',
 		'title' => 'Hønsene flytter ind',
 		'text'  => array(
@@ -55,7 +55,7 @@ $chapters = array(
 	),
 	array(
 		'img'   => $img( 'tl-5-far-og-soen.jpg' ),
-		'alt'   => 'Far og søn står sammen på marken',
+		'alt'   => 'Far og søn ser solen gå ned over marken',
 		'year'  => '[ÅRSTAL]',
 		'title' => 'Fra generation til generation',
 		'text'  => array(
@@ -65,7 +65,7 @@ $chapters = array(
 	),
 	array(
 		'img'   => $img( 'lov-koer.jpg' ),
-		'alt'   => 'Køer og kalve hviler i det høje græs',
+		'alt'   => 'Køer græsser på en mark',
 		'year'  => 'I dag',
 		'title' => 'Lov Gårdbutik',
 		'text'  => array(

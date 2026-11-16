@@ -1,7 +1,7 @@
 <!-- wp:template-part {"slug":"header","area":"header"} /-->
 
-<!-- wp:group {"tagName":"main","style":{"spacing":{"margin":{"top":"0"},"padding":{"top":"0","bottom":"var:preset|spacing|60"},"blockGap":"0"}},"layout":{"type":"constrained"}} -->
-<main class="wp-block-group" style="margin-top:0;padding-top:0;padding-bottom:var(--wp--preset--spacing--60)"><!-- wp:cover {"dimRatio":40,"overlayColor":"contrast","isUserOverlayColor":true,"minHeight":420,"contentPosition":"bottom left","className":"lov-product-hero","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|60","bottom":"56px","left":"var:preset|spacing|50","right":"var:preset|spacing|50"}}},"layout":{"type":"constrained","contentSize":"1200px"}} -->
+<!-- wp:group {"tagName":"main","style":{"spacing":{"margin":{"top":"0"},"padding":{"top":"0","bottom":"0"},"blockGap":"0"}},"layout":{"type":"constrained"}} -->
+<main class="wp-block-group" style="margin-top:0;padding-top:0;padding-bottom:0"><!-- wp:cover {"dimRatio":40,"overlayColor":"contrast","isUserOverlayColor":true,"minHeight":420,"contentPosition":"bottom left","className":"lov-product-hero","align":"full","style":{"spacing":{"padding":{"top":"var:preset|spacing|60","bottom":"56px","left":"var:preset|spacing|50","right":"var:preset|spacing|50"}}},"layout":{"type":"constrained","contentSize":"1200px"}} -->
 <div class="wp-block-cover alignfull has-custom-content-position is-position-bottom-left lov-product-hero" style="padding-top:var(--wp--preset--spacing--60);padding-right:var(--wp--preset--spacing--50);padding-bottom:56px;padding-left:var(--wp--preset--spacing--50);min-height:420px"><span aria-hidden="true" class="wp-block-cover__background has-contrast-background-color has-background-dim-40 has-background-dim"></span><div class="wp-block-cover__inner-container"><!-- wp:paragraph {"className":"lov-eyebrow","style":{"typography":{"fontWeight":"700","fontSize":"0.875rem"}},"textColor":"hay"} -->
 <p class="lov-eyebrow has-hay-color has-text-color" style="font-size:0.875rem;font-weight:700">Fra gården</p>
 <!-- /wp:paragraph -->
@@ -63,9 +63,7 @@
 <!-- wp:woocommerce/store-notices /-->
 
 <!-- wp:group {"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
-<div class="wp-block-group"><!-- wp:woocommerce/product-results-count /-->
-
-<!-- wp:woocommerce/catalog-sorting /--></div>
+<div class="wp-block-group"><!-- wp:woocommerce/product-results-count /--></div>
 <!-- /wp:group -->
 
 <!-- wp:woocommerce/product-collection {"queryId":0,"query":{"woocommerceAttributes":[],"woocommerceStockStatus":["instock","outofstock","onbackorder"],"taxQuery":{},"isProductCollectionBlock":true,"perPage":12,"pages":0,"offset":0,"postType":"product","order":"asc","orderBy":"title","author":"","search":"","exclude":[],"sticky":"","inherit":true},"tagName":"div","dimensions":{"widthType":"fill","fixedWidth":""},"displayLayout":{"type":"flex","columns":3,"shrinkColumns":true},"convertedFromProducts":false,"queryContextIncludes":["collection"]} -->
@@ -97,7 +95,9 @@
 <!-- /wp:paragraph -->
 <!-- /wp:woocommerce/product-collection-no-results --></div>
 <!-- /wp:woocommerce/product-collection --></div>
-<!-- /wp:group --></main>
+<!-- /wp:group -->
+
+<!-- wp:pattern {"slug":"lovgardbutik/dyrevelfaerd"} /--></main>
 <!-- /wp:group -->
 
 <!-- wp:template-part {"slug":"footer","area":"footer"} /-->
