@@ -1298,3 +1298,17 @@ body.lov-scrolled .wp-site-blocks > header .wp-block-site-logo img {
 		max-width: 270px;
 	}
 }
+
+/* Kassen på mobil: afhentningsdato og tidspunkt på hver sin række */
+@media (max-width: 599px) {
+	.woocommerce form #lov_pickup_date_field,
+	.woocommerce form #lov_pickup_time_field {
+		float: none;
+		width: 100%;
+	}
+	#lov_pickup_date_field input,
+	#lov_pickup_time_field select {
+		width: 100%;
+		box-sizing: border-box;
+	}
+}
