@@ -1312,3 +1312,43 @@ body.lov-scrolled .wp-site-blocks > header .wp-block-site-logo img {
 		box-sizing: border-box;
 	}
 }
+
+/* Datofeltet må ikke blive bredere end Tidspunkt (iOS Safari giver datofelter en fast bredde) */
+#lov_pickup_date {
+	-webkit-appearance: none;
+	appearance: none;
+	display: block;
+	width: 100%;
+	min-width: 0;
+	max-width: 100%;
+	box-sizing: border-box;
+}
+#lov_pickup_date::-webkit-date-and-time-value {
+	text-align: left;
+}
+
+/* iPhone zoomer ind på felter under 16px – hold alle formularfelter på mindst 16px */
+input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]),
+select,
+textarea {
+	font-size: max(16px, 1em) !important;
+}
+
+/* Ens højde på kassens felter (Bemærkninger er undtaget) */
+.woocommerce form.checkout input.input-text:not(textarea),
+.woocommerce form.checkout input[type="date"],
+.woocommerce form.checkout select {
+	height: 44px;
+	box-sizing: border-box;
+	padding-top: 0;
+	padding-bottom: 0;
+	line-height: normal;
+}
+.woocommerce form.checkout select {
+	padding-left: 12px;
+}
+.woocommerce form.checkout input.input-text:not(textarea),
+.woocommerce form.checkout input[type="date"] {
+	padding-left: 12px;
+	padding-right: 12px;
+}
