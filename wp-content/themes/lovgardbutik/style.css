@@ -54,6 +54,11 @@ Text Domain: lovgardbutik
 	margin: 0;
 }
 
+/* Luft mellem "Åbningstider" og første linje */
+.lov-hours > h2,
+.lov-hours > h3 {
+	margin-bottom: 18px !important;
+}
 .lov-hours p:last-child {
 	border-bottom: 0;
 }
@@ -933,6 +938,162 @@ body.lov-scrolled .wp-site-blocks > header .wp-block-site-logo img {
 	border-radius: 16px;
 	padding: 14px 14px 22px;
 }
+/* Alle knapper har en 2 px kant: fyldte knapper i samme farve som knappen,
+   omrids-knapper i tekstfarven. Så har de præcis samme størrelse. */
+.wp-block-button > .wp-block-button__link,
+.wp-element-button {
+	border: 2px solid transparent;
+	background-clip: border-box;
+	padding: calc(0.85rem - 2px) calc(1.6rem - 2px);
+	line-height: inherit;
+}
+.wp-block-button:not(.is-style-outline) > .wp-block-button__link {
+	/* Kanten får knappens egen farve (også ved hover) */
+	border-color: transparent !important;
+}
+.wp-block-button.is-style-outline > .wp-block-button__link {
+	border-width: 2px !important;
+	border-style: solid !important;
+	padding: calc(0.85rem - 2px) calc(1.6rem - 2px) !important;
+}
+
+/* Varekortene på forsiden ("Se mælk" osv.): samme grå knap med hvid tekst.
+   På den lyse baggrund bruges en fast varm grå, der svarer til den halvgennemsigtige grå i hero
+   og har god kontrast til den hvide tekst (ca. 4,6:1). */
+.lov-card .wp-block-button__link {
+	background-color: #7A746A !important;
+	color: #fff !important;
+	border-color: transparent !important;
+	transition: background-color 0.2s;
+}
+.lov-card .wp-block-button__link:hover,
+.lov-card .wp-block-button__link:focus-visible {
+	background-color: #625D55 !important;
+	color: #fff !important;
+}
+/* Pil efter teksten, der skubber sig lidt frem ved hover */
+.lov-card .wp-block-button__link {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+}
+.lov-card .wp-block-button__link::after {
+	content: "";
+	width: 18px;
+	height: 12px;
+	flex: 0 0 auto;
+	background-color: currentColor;
+	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 12'%3E%3Cpath d='M1 6h15M11 1l5 5-5 5' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 12'%3E%3Cpath d='M1 6h15M11 1l5 5-5 5' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+	transition: transform 0.2s;
+}
+.lov-card .wp-block-button__link:hover::after,
+.lov-card .wp-block-button__link:focus-visible::after {
+	transform: translateX(3px);
+}
+@media (prefers-reduced-motion: reduce) {
+	.lov-card .wp-block-button__link::after {
+		transition: none;
+	}
+}
+
+/* "Find vej"-knapperne: lille kort-ikon (kortnål) foran teksten */
+.wp-block-button__link[href*="google.com/maps"],
+.wp-block-button__link[href*="maps.google."] {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+}
+.wp-block-button__link[href*="google.com/maps"]::before,
+.wp-block-button__link[href*="maps.google."]::before {
+	content: "";
+	width: 18px;
+	height: 18px;
+	flex: 0 0 auto;
+	background-color: currentColor;
+	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 21s-7-5.6-7-11.2A7 7 0 0 1 19 9.8C19 15.4 12 21 12 21z'/%3E%3Ccircle cx='12' cy='10' r='2.6'/%3E%3C/svg%3E") center / contain no-repeat;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 21s-7-5.6-7-11.2A7 7 0 0 1 19 9.8C19 15.4 12 21 12 21z'/%3E%3Ccircle cx='12' cy='10' r='2.6'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+/* Forside: hero som ét stort billede med teksten ovenpå */
+.lov-front-hero.wp-block-cover {
+	min-height: min(78vh, 720px) !important;
+	padding: 0 !important;
+	align-items: center;
+}
+.lov-front-hero .wp-block-cover__image-background {
+	object-fit: cover;
+	object-position: 60% 50%;
+}
+/* Mørk toning fra venstre, så teksten står klart – billedet ses frit til højre */
+.lov-front-hero .wp-block-cover__background {
+	opacity: 1 !important;
+	background: linear-gradient(90deg, rgba(30, 26, 20, 0.78) 0%, rgba(30, 26, 20, 0.55) 40%, rgba(30, 26, 20, 0.08) 75%, rgba(30, 26, 20, 0) 100%) !important;
+}
+/* Samme venstre kant som forsidens øvrige sektioner (bred bredde, mindst sidens afstand fra kanten) */
+.lov-front-hero .wp-block-cover__inner-container {
+	position: static;
+	width: calc(100% - 2 * var(--wp--preset--spacing--50)) !important;
+	max-width: var(--wp--style--global--wide-size, 1200px) !important;
+	margin: 0 auto !important;
+	padding: 72px 0 !important;
+	box-sizing: border-box;
+}
+.lov-front-hero-text {
+	max-width: 600px;
+	margin-left: 0 !important;
+}
+.lov-front-hero-text h1 {
+	text-shadow: 0 2px 18px rgba(0, 0, 0, 0.25);
+}
+/* "Find vej til gården": helfarvet lys grå (halvgennemsigtig, så den ligger blødt på billedet) med hvid tekst */
+.lov-front-hero .lov-btn-light .wp-block-button__link {
+	color: #fff !important;
+	background: rgba(255, 255, 255, 0.24) !important;
+	border-color: transparent !important;
+	-webkit-backdrop-filter: blur(6px);
+	backdrop-filter: blur(6px);
+	transition: background 0.2s;
+}
+.lov-front-hero .lov-btn-light .wp-block-button__link:hover,
+.lov-front-hero .lov-btn-light .wp-block-button__link:focus-visible {
+	background: rgba(255, 255, 255, 0.36) !important;
+	color: #fff !important;
+}
+/* Notekortet nederst til højre i billedet */
+.lov-front-hero {
+	position: relative;
+}
+.lov-front-hero .lov-hero-note {
+	position: absolute !important;
+	right: max(var(--wp--preset--spacing--50), calc((100% - var(--wp--style--global--wide-size, 1200px)) / 2));
+	bottom: 40px;
+	left: auto !important;
+	max-width: 280px;
+	margin: 0 !important;
+	z-index: 2;
+	color: var(--wp--preset--color--contrast);
+}
+.lov-front-hero .lov-hero-note p:first-child {
+	color: var(--wp--preset--color--contrast) !important;
+}
+@media (max-width: 781px) {
+	.lov-front-hero.wp-block-cover {
+		min-height: 560px !important;
+		align-items: flex-end;
+	}
+	.lov-front-hero .wp-block-cover__background {
+		background: linear-gradient(0deg, rgba(30, 26, 20, 0.82) 0%, rgba(30, 26, 20, 0.55) 55%, rgba(30, 26, 20, 0.15) 100%) !important;
+	}
+	.lov-front-hero .wp-block-cover__inner-container {
+		padding: 48px 0 40px !important;
+	}
+	/* Notekortet skjules på smalle skærme, så billedet og teksten får plads */
+	.lov-front-hero .lov-hero-note {
+		display: none !important;
+	}
+}
+
 /* Dyrevelfærd-bjælken: hvidt felt med mærket, tekst til højre */
 .lov-welfare-box {
 	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);

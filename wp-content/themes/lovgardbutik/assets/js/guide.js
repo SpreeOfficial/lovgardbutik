@@ -8,6 +8,10 @@
 	if ( ! window.matchMedia( '(max-width: 860px)' ).matches ) {
 		return;
 	}
+	// Ingen pop-up ved skærmbilleder af siden (?skaermbillede=1)
+	if ( /[?&]skaermbillede=1\b/.test( location.search ) ) {
+		return;
+	}
 	if ( document.cookie.split( '; ' ).some( ( c ) => c.indexOf( COOKIE + '=' ) === 0 ) ) {
 		return;
 	}

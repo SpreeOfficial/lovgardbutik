@@ -14,12 +14,11 @@ $lov_img = function ( $file ) {
 		'url' => esc_url( content_url( 'uploads/2026/11/' . $file ) ),
 	);
 };
-$logo_id  = (int) get_option( 'site_logo' );
-$logo_url = esc_url( $logo_id ? wp_get_attachment_url( $logo_id ) : '' );
 $koer     = $lov_img( 'lov-koer.jpg' );
 $sol      = $lov_img( 'lov-solnedgang.jpg' );
 $maelk    = $lov_img( 'lov-maelk.jpg' );
 $hegn     = $lov_img( 'lov-hegn.jpg' );
+$koed     = $lov_img( 'lov-koed.jpg' );
 $aeg      = $lov_img( 'lov-aeg.jpg' );
 $hoene    = $lov_img( 'lov-hoene.jpg' );
 $cat      = function ( $slug ) {
@@ -28,19 +27,18 @@ $cat      = function ( $slug ) {
 };
 $shop     = esc_url( function_exists( 'wc_get_page_id' ) ? get_permalink( wc_get_page_id( 'shop' ) ) : home_url( '/butik/' ) );
 ?>
-<!-- wp:group {"align":"full","style":{"spacing":{"padding":{"top":"72px","bottom":"88px","left":"var:preset|spacing|50","right":"var:preset|spacing|50"}}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group alignfull" style="padding-top:72px;padding-right:var(--wp--preset--spacing--50);padding-bottom:88px;padding-left:var(--wp--preset--spacing--50)"><!-- wp:columns {"verticalAlignment":"center","align":"wide","style":{"spacing":{"blockGap":{"left":"56px"}}}} -->
-<div class="wp-block-columns alignwide are-vertically-aligned-center"><!-- wp:column {"verticalAlignment":"center","width":"42%","style":{"spacing":{"blockGap":"24px"}}} -->
-<div class="wp-block-column is-vertically-aligned-center" style="flex-basis:42%"><!-- wp:image {"id":<?php echo $logo_id; ?>,"width":"420px","sizeSlug":"full","linkDestination":"none"} -->
-<figure class="wp-block-image size-full is-resized"><img src="<?php echo $logo_url; ?>" alt="Lov Gårdbutik" class="wp-image-<?php echo $logo_id; ?>" style="width:420px"/></figure>
-<!-- /wp:image -->
+<!-- wp:cover {"url":"<?php echo $koer['url']; ?>","id":<?php echo $koer['id']; ?>,"dimRatio":0,"isUserOverlayColor":true,"minHeight":640,"contentPosition":"center left","className":"lov-front-hero","align":"full","layout":{"type":"constrained"}} -->
+<div class="wp-block-cover alignfull has-custom-content-position is-position-center-left lov-front-hero" style="min-height:640px"><span aria-hidden="true" class="wp-block-cover__background has-background-dim-0 has-background-dim"></span><img class="wp-block-cover__image-background wp-image-<?php echo $koer['id']; ?>" alt="" src="<?php echo $koer['url']; ?>" data-object-fit="cover"/><div class="wp-block-cover__inner-container"><!-- wp:group {"className":"lov-front-hero-text","style":{"spacing":{"blockGap":"22px"}},"layout":{"type":"default"}} -->
+<div class="wp-block-group lov-front-hero-text"><!-- wp:paragraph {"className":"lov-eyebrow","style":{"typography":{"fontWeight":"700","fontSize":"0.875rem"}},"textColor":"hay"} -->
+<p class="lov-eyebrow has-hay-color has-text-color" style="font-size:0.875rem;font-weight:700">Lov Gårdbutik · Østre Kærvej 4, Lov</p>
+<!-- /wp:paragraph -->
 
-<!-- wp:heading {"level":1,"fontSize":"xx-large"} -->
-<h1 class="wp-block-heading has-xx-large-font-size">Mælk, kød og æg fra dyr, der går på græs.</h1>
+<!-- wp:heading {"level":1,"textColor":"paper","fontSize":"xx-large"} -->
+<h1 class="wp-block-heading has-paper-color has-text-color has-xx-large-font-size">Mælk, kød og æg fra dyr, der går på græs.</h1>
 <!-- /wp:heading -->
 
-<!-- wp:paragraph {"textColor":"muted","fontSize":"large"} -->
-<p class="has-muted-color has-text-color has-large-font-size">Fra marken bag laden til dit køkkenbord. Uden omveje, og med god tid til det hele.</p>
+<!-- wp:paragraph {"textColor":"paper","fontSize":"large"} -->
+<p class="has-paper-color has-text-color has-large-font-size">Fra marken bag laden til dit køkkenbord. Uden omveje, og med god tid til det hele.</p>
 <!-- /wp:paragraph -->
 
 <!-- wp:buttons -->
@@ -48,16 +46,11 @@ $shop     = esc_url( function_exists( 'wc_get_page_id' ) ? get_permalink( wc_get
 <div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="<?php echo $shop; ?>">Se ugens varer</a></div>
 <!-- /wp:button -->
 
-<!-- wp:button {"className":"is-style-outline"} -->
-<div class="wp-block-button is-style-outline"><a class="wp-block-button__link wp-element-button" href="#besog">Find vej til gården</a></div>
+<!-- wp:button {"className":"is-style-outline lov-btn-light"} -->
+<div class="wp-block-button is-style-outline lov-btn-light"><a class="wp-block-button__link wp-element-button" href="#besog">Find vej til gården</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
-<!-- /wp:column -->
-
-<!-- wp:column {"verticalAlignment":"center","width":"58%","className":"lov-hero-media"} -->
-<div class="wp-block-column is-vertically-aligned-center lov-hero-media" style="flex-basis:58%"><!-- wp:image {"id":<?php echo $koer['id']; ?>,"aspectRatio":"4/5","scale":"cover","sizeSlug":"large","linkDestination":"none","className":"lov-arch"} -->
-<figure class="wp-block-image size-large lov-arch"><img src="<?php echo $koer['url']; ?>" alt="Køer græsser på en mark" class="wp-image-<?php echo $koer['id']; ?>" style="aspect-ratio:4/5;object-fit:cover"/></figure>
-<!-- /wp:image -->
+<!-- /wp:group -->
 
 <!-- wp:group {"className":"lov-hero-note","style":{"border":{"radius":"14px"},"spacing":{"padding":{"top":"16px","bottom":"16px","left":"22px","right":"22px"},"blockGap":"2px"}},"backgroundColor":"paper","layout":{"type":"flex","orientation":"vertical"}} -->
 <div class="wp-block-group lov-hero-note has-paper-background-color has-background" style="border-radius:14px;padding-top:16px;padding-right:22px;padding-bottom:16px;padding-left:22px"><!-- wp:paragraph {"style":{"typography":{"fontWeight":"700","fontSize":"1.25rem"}},"fontFamily":"source-serif"} -->
@@ -67,16 +60,14 @@ $shop     = esc_url( function_exists( 'wc_get_page_id' ) ? get_permalink( wc_get
 <!-- wp:paragraph {"textColor":"muted","fontSize":"small"} -->
 <p class="has-muted-color has-text-color has-small-font-size">Køerne går på græs, så længe vejret tillader det.</p>
 <!-- /wp:paragraph --></div>
-<!-- /wp:group --></div>
-<!-- /wp:column --></div>
-<!-- /wp:columns --></div>
-<!-- /wp:group -->
+<!-- /wp:group --></div></div>
+<!-- /wp:cover -->
 
 <!-- wp:group {"anchor":"historien","align":"full","style":{"spacing":{"padding":{"top":"104px","bottom":"104px","left":"var:preset|spacing|50","right":"var:preset|spacing|50"}},"border":{"top":{"color":"var:preset|color|line","width":"1px"},"bottom":{"color":"var:preset|color|line","width":"1px"}}},"backgroundColor":"paper","layout":{"type":"constrained"}} -->
 <div id="historien" class="wp-block-group alignfull has-paper-background-color has-background" style="border-top-color:var(--wp--preset--color--line);border-top-width:1px;border-bottom-color:var(--wp--preset--color--line);border-bottom-width:1px;padding-top:104px;padding-right:var(--wp--preset--spacing--50);padding-bottom:104px;padding-left:var(--wp--preset--spacing--50)"><!-- wp:columns {"verticalAlignment":"center","align":"wide","style":{"spacing":{"blockGap":{"left":"64px"}}}} -->
 <div class="wp-block-columns alignwide are-vertically-aligned-center"><!-- wp:column {"verticalAlignment":"center"} -->
-<div class="wp-block-column is-vertically-aligned-center"><!-- wp:image {"id":<?php echo $sol['id']; ?>,"aspectRatio":"4/5","scale":"cover","sizeSlug":"large","linkDestination":"none","style":{"border":{"radius":"16px"}}} -->
-<figure class="wp-block-image size-large has-custom-border"><img src="<?php echo $sol['url']; ?>" alt="Køer græsser på marken i solnedgang" class="wp-image-<?php echo $sol['id']; ?>" style="border-radius:16px;aspect-ratio:4/5;object-fit:cover"/></figure>
+<div class="wp-block-column is-vertically-aligned-center"><!-- wp:image {"id":<?php echo $hegn['id']; ?>,"aspectRatio":"4/5","scale":"cover","sizeSlug":"large","linkDestination":"none","style":{"border":{"radius":"16px"}}} -->
+<figure class="wp-block-image size-large has-custom-border"><img src="<?php echo $hegn['url']; ?>" alt="Rød lade på en bakke med høballer i solnedgang" class="wp-image-<?php echo $hegn['id']; ?>" style="border-radius:16px;aspect-ratio:4/5;object-fit:cover"/></figure>
 <!-- /wp:image --></div>
 <!-- /wp:column -->
 
@@ -128,7 +119,7 @@ $shop     = esc_url( function_exists( 'wc_get_page_id' ) ? get_permalink( wc_get
 foreach (
 	array(
 		array( $maelk, 'Frisk mælk hældes fra en glaskande i et glas', 'Mælk', 'Frisk mælk fra køer, der har gået på græs. Fed, cremet og med den runde smag, man husker fra bedstemors køkken.', $cat( 'maelk' ), 'Se mælk' ),
-		array( $hegn, 'Rød lade på en bakke med høballer i solnedgang', 'Kød', 'Kød fra dyr, der har haft et roligt liv på marken. Hængemørt, pakket i portioner og klar til fryseren. Spørg efter kødpakker.', $cat( 'koed' ), 'Se kød' ),
+		array( $koed, 'Stykke råt oksekød på et skærebræt', 'Kød', 'Kød fra dyr, der har haft et roligt liv på marken. Hængemørt, pakket i portioner og klar til fryseren. Spørg efter kødpakker.', $cat( 'koed' ), 'Se kød' ),
 		array( $aeg, 'Friske brune og hvide æg i en bakke', 'Æg', 'Æg fra høns, der går frit rundt på gårdspladsen og i græsset. Samlet ind hver dag, så de er så friske, som de kan blive.', $cat( 'aeg' ), 'Se æg' ),
 	) as $card
 ) :
@@ -245,7 +236,7 @@ foreach (
 
 <!-- wp:buttons -->
 <div class="wp-block-buttons"><!-- wp:button -->
-<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="https://maps.google.com/?q=%C3%98stre+K%C3%A6rvej+4,+4700+N%C3%A6stved">Find vej</a></div>
+<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="https://www.google.com/maps/dir/?api=1&amp;destination=%C3%98stre%20K%C3%A6rvej%204%2C%204700%20N%C3%A6stved">Find vej</a></div>
 <!-- /wp:button --></div>
 <!-- /wp:buttons --></div>
 <!-- /wp:column -->
