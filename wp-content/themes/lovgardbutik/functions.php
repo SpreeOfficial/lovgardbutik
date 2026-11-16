@@ -254,3 +254,35 @@ add_filter( 'render_block_woocommerce/product-price', function ( $html, $block, 
 add_action( 'init', function () {
 	register_block_pattern_category( 'lovgardbutik', array( 'label' => 'Lov Gårdbutik' ) );
 } );
+
+/**
+ * Relative links i indholdet.
+ * Links og billeder, der er gemt med fuld adresse (lokalt, lovgardbutik.dk eller one.com's
+ * forhåndsadresse), skrives om til stier ud fra sidens aktuelle adresse – så de virker overalt.
+ */
+function lov_relative_urls( $html ) {
+	if ( ! is_string( $html ) || '' === $html || false === strpos( $html, '//' ) ) {
+		return $html;
+	}
+	static $from = null, $to = null;
+	if ( null === $from ) {
+		$path = rtrim( (string) wp_parse_url( home_url( '/' ), PHP_URL_PATH ), '/' );
+		$from = array();
+		foreach ( array( 'lovgardbutik.dk', 'www.lovgardbutik.dk', 'localhost/lovgardbutik', '0d5bd027.website.ca63ltfwk.service.one' ) as $host ) {
+			foreach ( array( 'https://', 'http://', '//' ) as $scheme ) {
+				$from[] = '="' . $scheme . $host . '/';
+				$from[] = '="' . $scheme . $host . '"';
+				$from[] = "url(" . $scheme . $host . '/';
+			}
+		}
+		$to = array();
+		foreach ( $from as $f ) {
+			$to[] = str_starts_with( $f, 'url(' ) ? 'url(' . $path . '/' : ( str_ends_with( $f, '"' ) ? '="' . $path . '/"' : '="' . $path . '/' );
+		}
+	}
+	return str_replace( $from, $to, $html );
+}
+add_filter( 'render_block', function ( $html, $block ) {
+	return lov_relative_urls( $html );
+}, 99, 2 );
+add_filter( 'the_content', 'lov_relative_urls', 99 );
